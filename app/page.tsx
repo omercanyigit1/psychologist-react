@@ -4,6 +4,8 @@ import { Phone, Mail, MapPin, Heart, Brain, Users, Shield, ChevronRight, Star, U
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useRef, useState } from 'react'
+import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 // Custom hook for intersection observer
 function useInView(options = {}) {
@@ -80,7 +82,8 @@ function ParallaxElement({ children, speed = 0.5, className = "" }) {
   )
 }
 
-export default function Component() {
+function WebsiteContent() {
+  const { t } = useLanguage()
   const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
@@ -88,6 +91,21 @@ export default function Component() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Smooth scroll function
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const navHeight = 64 // Height of the fixed navigation bar
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = elementPosition - navHeight
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -101,13 +119,29 @@ export default function Component() {
               </div>
               <span className="text-xl font-serif text-slate-800">Esprit Serein</span>
             </div>
-            <div className="hidden md:flex space-x-8">
-              <a href="#services" className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium">Services</a>
-              <a href="#about" className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium">À Propos</a>
-              <a href="#contact" className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium">Contact</a>
+            <div className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => scrollToSection('services')} 
+                className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium cursor-pointer"
+              >
+                {t('nav.services')}
+              </button>
+              <button 
+                onClick={() => scrollToSection('about')} 
+                className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium cursor-pointer"
+              >
+                {t('nav.about')}
+              </button>
+              <button 
+                onClick={() => scrollToSection('contact')} 
+                className="text-slate-700 hover:text-blue-600 transition-colors duration-300 font-medium cursor-pointer"
+              >
+                {t('nav.contact')}
+              </button>
+              <LanguageSwitcher />
             </div>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 hover:scale-105">
-              Prendre Rendez-vous
+              {t('nav.appointment')}
             </Button>
           </div>
         </div>
@@ -136,13 +170,12 @@ export default function Component() {
               <AnimatedSection animation="fadeUp">
                 <div className="space-y-4">
                   <h1 className="text-4xl lg:text-6xl font-serif text-slate-800 leading-tight">
-                    Votre bien-être
-                    <span className="block text-blue-600">psychologique</span>
-                    <span className="block">au cœur de nos priorités</span>
+                    {t('hero.title.line1')}
+                    <span className="block text-blue-600">{t('hero.title.line2')}</span>
+                    <span className="block">{t('hero.title.line3')}</span>
                   </h1>
                   <p className="text-xl text-slate-600 leading-relaxed">
-                    Accompagnement psychologique professionnel partout en France. 
-                    Retrouvez l'équilibre et la sérénité avec nos thérapeutes qualifiés.
+                    {t('hero.subtitle')}
                   </p>
                 </div>
               </AnimatedSection>
@@ -150,11 +183,11 @@ export default function Component() {
               <AnimatedSection animation="fadeUp" delay={200}>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                    Consultation en ligne
+                    {t('hero.cta.online')}
                     <ChevronRight className="ml-2 w-4 h-4" />
                   </Button>
                   <Button size="lg" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 px-8 py-3 transition-all duration-300 hover:scale-105">
-                    Trouver un thérapeute
+                    {t('hero.cta.find')}
                   </Button>
                 </div>
               </AnimatedSection>
@@ -167,13 +200,13 @@ export default function Component() {
                       <div className="w-8 h-8 rounded-full bg-indigo-500 border-2 border-white transition-transform duration-300 hover:scale-110"></div>
                       <div className="w-8 h-8 rounded-full bg-purple-500 border-2 border-white transition-transform duration-300 hover:scale-110"></div>
                     </div>
-                    <span className="text-sm text-slate-600">+2000 patients accompagnés</span>
+                    <span className="text-sm text-slate-600">{t('hero.patients')}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400 transition-transform duration-300 hover:scale-125" />
                     ))}
-                    <span className="text-sm text-slate-600 ml-1">4.9/5</span>
+                    <span className="text-sm text-slate-600 ml-1">{t('hero.rating')}</span>
                   </div>
                 </div>
               </AnimatedSection>
@@ -188,22 +221,22 @@ export default function Component() {
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-4 flex items-center justify-center transition-transform duration-300 hover:scale-110">
                         <Brain className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-xl font-semibold text-slate-800 mb-2">Consultation Gratuite</h3>
-                      <p className="text-slate-600">Premier entretien de 30 minutes offert</p>
+                      <h3 className="text-xl font-semibold text-slate-800 mb-2">{t('hero.consultation.title')}</h3>
+                      <p className="text-slate-600">{t('hero.consultation.subtitle')}</p>
                     </div>
                     
                     <div className="space-y-4">
                       <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg transition-all duration-300 hover:bg-blue-100 hover:scale-105">
                         <Shield className="w-5 h-5 text-blue-600" />
-                        <span className="text-sm text-slate-700">Confidentialité garantie</span>
+                        <span className="text-sm text-slate-700">{t('hero.feature.confidentiality')}</span>
                       </div>
                       <div className="flex items-center space-x-3 p-3 bg-indigo-50 rounded-lg transition-all duration-300 hover:bg-indigo-100 hover:scale-105">
                         <Users className="w-5 h-5 text-indigo-600" />
-                        <span className="text-sm text-slate-700">Thérapeutes certifiés</span>
+                        <span className="text-sm text-slate-700">{t('hero.feature.certified')}</span>
                       </div>
                       <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg transition-all duration-300 hover:bg-purple-100 hover:scale-105">
                         <Heart className="w-5 h-5 text-purple-600" />
-                        <span className="text-sm text-slate-700">Approche bienveillante</span>
+                        <span className="text-sm text-slate-700">{t('hero.feature.approach')}</span>
                       </div>
                     </div>
                   </div>
@@ -234,7 +267,7 @@ export default function Component() {
                     <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-xl border border-blue-100 transition-all duration-300 hover:scale-110">
                       <div className="flex items-center space-x-2">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-sm font-medium text-slate-700">Disponible</span>
+                        <span className="text-sm font-medium text-slate-700">{t('psychologist.available')}</span>
                       </div>
                     </div>
                   </div>
@@ -247,16 +280,15 @@ export default function Component() {
                 <div className="space-y-4">
                   <div className="inline-flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full transition-all duration-300 hover:bg-blue-100">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium text-blue-700">Psychologue Clinicienne</span>
+                    <span className="text-sm font-medium text-blue-700">{t('psychologist.badge')}</span>
                   </div>
                   
                   <h2 className="text-3xl lg:text-4xl font-serif text-slate-800">
-                    Dr. Marie-Claire Dubois
+                    {t('psychologist.name')}
                   </h2>
                   
                   <p className="text-xl text-slate-600 leading-relaxed">
-                    Psychologue clinicienne diplômée de l'Université Paris Descartes, 
-                    spécialisée en thérapies cognitivo-comportementales et approche humaniste.
+                    {t('psychologist.description')}
                   </p>
                 </div>
               </AnimatedSection>
@@ -266,18 +298,18 @@ export default function Component() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="bg-blue-50 rounded-xl p-4 transition-all duration-300 hover:bg-blue-100 hover:scale-105">
                       <div className="text-2xl font-bold text-blue-600 mb-1">15+</div>
-                      <div className="text-sm text-slate-600">Années d'expérience</div>
+                      <div className="text-sm text-slate-600">{t('psychologist.experience')}</div>
                     </div>
                     <div className="bg-indigo-50 rounded-xl p-4 transition-all duration-300 hover:bg-indigo-100 hover:scale-105">
                       <div className="text-2xl font-bold text-indigo-600 mb-1">1800+</div>
-                      <div className="text-sm text-slate-600">Patients accompagnés</div>
+                      <div className="text-sm text-slate-600">{t('psychologist.patients')}</div>
                     </div>
                   </div>
                 </AnimatedSection>
 
                 <AnimatedSection animation="fadeRight" delay={400}>
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-slate-800">Formations & Certifications</h3>
+                    <h3 className="text-lg font-semibold text-slate-800">{t('psychologist.formations')}</h3>
                     <div className="space-y-3">
                       {[
                         {
@@ -317,17 +349,15 @@ export default function Component() {
 
                 <AnimatedSection animation="scaleIn" delay={600}>
                   <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100 transition-all duration-300 hover:shadow-lg hover:scale-105">
-                    <h3 className="text-lg font-semibold text-slate-800 mb-3">Ma Philosophie</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-3">{t('psychologist.philosophy')}</h3>
                     <p className="text-slate-700 leading-relaxed italic">
-                      "Chaque personne possède en elle les ressources nécessaires pour surmonter ses difficultés. 
-                      Mon rôle est de vous accompagner avec bienveillance dans cette découverte de vos propres forces, 
-                      dans un espace sécurisé et sans jugement."
+                      {t('psychologist.quote')}
                     </p>
                     <div className="flex items-center space-x-2 mt-4">
                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center transition-transform duration-300 hover:scale-110">
                         <Heart className="w-4 h-4 text-blue-600" />
                       </div>
-                      <span className="text-sm font-medium text-slate-700">Dr. Marie-Claire Dubois</span>
+                      <span className="text-sm font-medium text-slate-700">{t('psychologist.name')}</span>
                     </div>
                   </div>
                 </AnimatedSection>
@@ -335,11 +365,11 @@ export default function Component() {
                 <AnimatedSection animation="fadeRight" delay={800}>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                      Prendre rendez-vous
+                      {t('psychologist.appointment')}
                       <ChevronRight className="ml-2 w-4 h-4" />
                     </Button>
                     <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 flex-1 transition-all duration-300 hover:scale-105">
-                      Voir les disponibilités
+                      {t('psychologist.availability')}
                     </Button>
                   </div>
                 </AnimatedSection>
@@ -355,17 +385,16 @@ export default function Component() {
           <AnimatedSection animation="fadeUp">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-serif text-slate-800 mb-4">
-                Nos Services Thérapeutiques
+                {t('services.title')}
               </h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                Une gamme complète de services adaptés à vos besoins, 
-                dispensés par des professionnels expérimentés partout en France.
+                {t('services.subtitle')}
               </p>
             </div>
           </AnimatedSection>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Thérapie Individuelle */}
+            {/* Individual Therapy */}
             <AnimatedSection animation="scaleIn" delay={0}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -373,25 +402,25 @@ export default function Component() {
                     <User className="w-8 h-8 text-blue-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Thérapie Individuelle
+                    {t('services.individual.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Accompagnement personnalisé pour surmonter anxiété, dépression, et troubles émotionnels.
+                    {t('services.individual.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             </AnimatedSection>
 
-            {/* Thérapie de Couple */}
+            {/* Couple Therapy */}
             <AnimatedSection animation="scaleIn" delay={100}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -399,25 +428,25 @@ export default function Component() {
                     <HeartHandshake className="w-8 h-8 text-rose-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Thérapie de Couple
+                    {t('services.couple.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Restaurer la communication et renforcer les liens dans votre relation amoureuse.
+                    {t('services.couple.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             </AnimatedSection>
 
-            {/* Thérapie Familiale */}
+            {/* Family Therapy */}
             <AnimatedSection animation="scaleIn" delay={200}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -425,25 +454,25 @@ export default function Component() {
                     <UsersRound className="w-8 h-8 text-green-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Thérapie Familiale
+                    {t('services.family.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Résoudre les conflits familiaux et améliorer la dynamique familiale.
+                    {t('services.family.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             </AnimatedSection>
 
-            {/* Gestion du Stress */}
+            {/* Stress Management */}
             <AnimatedSection animation="scaleIn" delay={300}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -451,25 +480,25 @@ export default function Component() {
                     <Zap className="w-8 h-8 text-purple-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Gestion du Stress
+                    {t('services.stress.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Techniques avancées pour gérer le stress professionnel et personnel.
+                    {t('services.stress.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             </AnimatedSection>
 
-            {/* Thérapie Cognitive */}
+            {/* Cognitive Therapy */}
             <AnimatedSection animation="scaleIn" delay={400}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -477,25 +506,25 @@ export default function Component() {
                     <Brain className="w-8 h-8 text-indigo-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Thérapie Cognitive
+                    {t('services.cognitive.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Approche scientifique pour modifier les schémas de pensée négatifs.
+                    {t('services.cognitive.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
             </AnimatedSection>
 
-            {/* Consultation d'Urgence */}
+            {/* Emergency Consultation */}
             <AnimatedSection animation="scaleIn" delay={500}>
               <Card className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg hover:scale-105 hover:-translate-y-2">
                 <CardHeader className="text-center pb-4">
@@ -503,18 +532,18 @@ export default function Component() {
                     <AlertTriangle className="w-8 h-8 text-red-600 fill-current" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-slate-800">
-                    Consultation d'Urgence
+                    {t('services.emergency.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-slate-600 text-center leading-relaxed">
-                    Support immédiat disponible 24h/24 pour les situations de crise.
+                    {t('services.emergency.description')}
                   </CardDescription>
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
                   >
-                    En savoir plus
+                    {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
@@ -531,37 +560,35 @@ export default function Component() {
             <AnimatedSection animation="fadeRight">
               <div className="space-y-6">
                 <h2 className="text-3xl lg:text-4xl font-serif text-slate-800">
-                  Excellence Thérapeutique à la Française
+                  {t('about.title')}
                 </h2>
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  Depuis plus de 15 ans, nous incarnons l'excellence de la psychologie française, 
-                  alliant tradition humaniste et innovations thérapeutiques modernes. Notre réseau 
-                  de thérapeutes qualifiés couvre l'ensemble du territoire français.
+                  {t('about.description')}
                 </p>
                 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <AnimatedSection animation="scaleIn" delay={0}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
                       <div className="text-3xl font-bold text-blue-600">150+</div>
-                      <div className="text-slate-600">Thérapeutes certifiés</div>
+                      <div className="text-slate-600">{t('about.stats.therapists')}</div>
                     </div>
                   </AnimatedSection>
                   <AnimatedSection animation="scaleIn" delay={100}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
                       <div className="text-3xl font-bold text-indigo-600">2000+</div>
-                      <div className="text-slate-600">Patients accompagnés</div>
+                      <div className="text-slate-600">{t('about.stats.patients')}</div>
                     </div>
                   </AnimatedSection>
                   <AnimatedSection animation="scaleIn" delay={200}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
                       <div className="text-3xl font-bold text-purple-600">95%</div>
-                      <div className="text-slate-600">Taux de satisfaction</div>
+                      <div className="text-slate-600">{t('about.stats.satisfaction')}</div>
                     </div>
                   </AnimatedSection>
                   <AnimatedSection animation="scaleIn" delay={300}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
                       <div className="text-3xl font-bold text-rose-600">24/7</div>
-                      <div className="text-slate-600">Support d'urgence</div>
+                      <div className="text-slate-600">{t('about.stats.support')}</div>
                     </div>
                   </AnimatedSection>
                 </div>
@@ -571,14 +598,14 @@ export default function Component() {
             <AnimatedSection animation="fadeLeft">
               <div className="relative">
                 <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 transition-all duration-500 hover:shadow-3xl hover:scale-105">
-                  <h3 className="text-xl font-semibold text-slate-800 mb-6">Notre Approche</h3>
+                  <h3 className="text-xl font-semibold text-slate-800 mb-6">{t('about.approach.title')}</h3>
                   <div className="space-y-4">
                     {[
-                      "Écoute bienveillante et sans jugement",
-                      "Méthodes thérapeutiques éprouvées",
-                      "Accompagnement personnalisé",
-                      "Respect de la confidentialité absolue",
-                      "Suivi régulier et adaptatif"
+                      t('about.approach.1'),
+                      t('about.approach.2'),
+                      t('about.approach.3'),
+                      t('about.approach.4'),
+                      t('about.approach.5')
                     ].map((item, index) => (
                       <AnimatedSection key={index} animation="fadeLeft" delay={index * 100}>
                         <div className="flex items-center space-x-3 transition-all duration-300 hover:translate-x-2">
@@ -601,10 +628,10 @@ export default function Component() {
           <AnimatedSection animation="fadeUp">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-serif text-slate-800 mb-4">
-                Prenez Contact Avec Nous
+                {t('contact.title')}
               </h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                Notre équipe est à votre disposition pour vous accompagner dans votre démarche thérapeutique.
+                {t('contact.subtitle')}
               </p>
             </div>
           </AnimatedSection>
@@ -615,8 +642,8 @@ export default function Component() {
                 <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:scale-110">
                   <Phone className="w-8 h-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">Téléphone</h3>
-                <p className="text-slate-600 mb-4">Disponible 24h/24, 7j/7</p>
+                <h3 className="text-xl font-semibold text-slate-800 mb-2">{t('contact.phone.title')}</h3>
+                <p className="text-slate-600 mb-4">{t('contact.phone.subtitle')}</p>
                 <p className="text-lg font-semibold text-blue-600">01 23 45 67 89</p>
               </Card>
             </AnimatedSection>
@@ -626,8 +653,8 @@ export default function Component() {
                 <div className="w-16 h-16 bg-indigo-100 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:scale-110">
                   <Mail className="w-8 h-8 text-indigo-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">Email</h3>
-                <p className="text-slate-600 mb-4">Réponse sous 24h</p>
+                <h3 className="text-xl font-semibold text-slate-800 mb-2">{t('contact.email.title')}</h3>
+                <p className="text-slate-600 mb-4">{t('contact.email.subtitle')}</p>
                 <p className="text-lg font-semibold text-indigo-600">contact@espritserein.fr</p>
               </Card>
             </AnimatedSection>
@@ -637,9 +664,9 @@ export default function Component() {
                 <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:scale-110">
                   <MapPin className="w-8 h-8 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">Localisation</h3>
-                <p className="text-slate-600 mb-4">Partout en France</p>
-                <p className="text-lg font-semibold text-purple-600">Consultations en ligne</p>
+                <h3 className="text-xl font-semibold text-slate-800 mb-2">{t('contact.location.title')}</h3>
+                <p className="text-slate-600 mb-4">{t('contact.location.subtitle')}</p>
+                <p className="text-lg font-semibold text-purple-600">{t('contact.location.online')}</p>
               </Card>
             </AnimatedSection>
           </div>
@@ -647,7 +674,7 @@ export default function Component() {
           <AnimatedSection animation="fadeUp" delay={600}>
             <div className="mt-16 text-center">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-12 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                Réserver une consultation gratuite
+                {t('contact.cta')}
               </Button>
             </div>
           </AnimatedSection>
@@ -666,22 +693,22 @@ export default function Component() {
                 <span className="text-xl font-serif">Esprit Serein</span>
               </div>
               <p className="text-slate-300">
-                Votre bien-être psychologique, notre engagement quotidien.
+                {t('footer.tagline')}
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Services</h4>
+              <h4 className="font-semibold mb-4">{t('footer.services')}</h4>
               <ul className="space-y-2 text-slate-300">
-                <li className="transition-colors duration-300 hover:text-white cursor-pointer">Thérapie individuelle</li>
-                <li className="transition-colors duration-300 hover:text-white cursor-pointer">Thérapie de couple</li>
-                <li className="transition-colors duration-300 hover:text-white cursor-pointer">Thérapie familiale</li>
-                <li className="transition-colors duration-300 hover:text-white cursor-pointer">Gestion du stress</li>
+                <li className="transition-colors duration-300 hover:text-white cursor-pointer">{t('services.individual.title')}</li>
+                <li className="transition-colors duration-300 hover:text-white cursor-pointer">{t('services.couple.title')}</li>
+                <li className="transition-colors duration-300 hover:text-white cursor-pointer">{t('services.family.title')}</li>
+                <li className="transition-colors duration-300 hover:text-white cursor-pointer">{t('services.stress.title')}</li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">À Propos</h4>
+              <h4 className="font-semibold mb-4">{t('footer.about')}</h4>
               <ul className="space-y-2 text-slate-300">
                 <li className="transition-colors duration-300 hover:text-white cursor-pointer">Notre équipe</li>
                 <li className="transition-colors duration-300 hover:text-white cursor-pointer">Notre approche</li>
@@ -691,21 +718,29 @@ export default function Component() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
+              <h4 className="font-semibold mb-4">{t('footer.contact')}</h4>
               <ul className="space-y-2 text-slate-300">
                 <li className="transition-colors duration-300 hover:text-white">01 23 45 67 89</li>
                 <li className="transition-colors duration-300 hover:text-white">contact@espritserein.fr</li>
-                <li className="transition-colors duration-300 hover:text-white">Consultations en ligne</li>
+                <li className="transition-colors duration-300 hover:text-white">{t('contact.location.online')}</li>
                 <li className="transition-colors duration-300 hover:text-white">Support 24/7</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
-            <p>&copy; 2024 Esprit Serein. Tous droits réservés. | Mentions légales | Politique de confidentialité</p>
+            <p>&copy; 2024 Esprit Serein. {t('footer.copyright')} | {t('footer.legal')} | {t('footer.privacy')}</p>
           </div>
         </div>
       </footer>
     </div>
+  )
+}
+
+export default function Component() {
+  return (
+    <LanguageProvider>
+      <WebsiteContent />
+    </LanguageProvider>
   )
 }
