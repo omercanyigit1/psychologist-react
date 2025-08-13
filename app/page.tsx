@@ -287,7 +287,7 @@ function WebsiteContent() {
                     {t('psychologist.name')}
                   </h2>
                   
-                  <p className="text-xl text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('psychologist.description') }} />
+                  <p className="text-sm text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('psychologist.description') }} />
                 </div>
               </AnimatedSection>
 
