@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Esprit Serein - Psychological Counseling',
+  title: 'Gurbette Psikolog - Psychological Counseling',
   description: 'Professional psychological support throughout France. Find balance and serenity with our qualified therapists.',
 }
 

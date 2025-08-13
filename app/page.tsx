@@ -117,7 +117,7 @@ function WebsiteContent() {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4 text-white" />
               </div>
-              <span className="text-xl font-serif text-slate-800">Esprit Serein</span>
+              <span className="text-xl font-serif text-slate-800">Gurbette Psikolog</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button 
@@ -140,7 +140,7 @@ function WebsiteContent() {
               </button>
               <LanguageSwitcher />
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 hover:scale-105">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 hover:scale-105" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
               {t('nav.appointment')}
             </Button>
           </div>
@@ -182,13 +182,13 @@ function WebsiteContent() {
               
               <AnimatedSection animation="fadeUp" delay={200}>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
                     {t('hero.cta.online')}
                     <ChevronRight className="ml-2 w-4 h-4" />
                   </Button>
-                  <Button size="lg" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 px-8 py-3 transition-all duration-300 hover:scale-105">
+                  {/** <Button size="lg" variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 px-8 py-3 transition-all duration-300 hover:scale-105">
                     {t('hero.cta.find')}
-                  </Button>
+                  </Button> */}
                 </div>
               </AnimatedSection>
 
@@ -287,9 +287,7 @@ function WebsiteContent() {
                     {t('psychologist.name')}
                   </h2>
                   
-                  <p className="text-xl text-slate-600 leading-relaxed">
-                    {t('psychologist.description')}
-                  </p>
+                  <p className="text-xl text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('psychologist.description') }} />
                 </div>
               </AnimatedSection>
 
@@ -297,17 +295,17 @@ function WebsiteContent() {
                 <AnimatedSection animation="fadeRight" delay={200}>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="bg-blue-50 rounded-xl p-4 transition-all duration-300 hover:bg-blue-100 hover:scale-105">
-                      <div className="text-2xl font-bold text-blue-600 mb-1">15+</div>
+                      <div className="text-2xl font-bold text-blue-600 mb-1">4+</div>
                       <div className="text-sm text-slate-600">{t('psychologist.experience')}</div>
                     </div>
                     <div className="bg-indigo-50 rounded-xl p-4 transition-all duration-300 hover:bg-indigo-100 hover:scale-105">
-                      <div className="text-2xl font-bold text-indigo-600 mb-1">1800+</div>
+                      <div className="text-2xl font-bold text-indigo-600 mb-1">100+</div>
                       <div className="text-sm text-slate-600">{t('psychologist.patients')}</div>
                     </div>
                   </div>
                 </AnimatedSection>
 
-                <AnimatedSection animation="fadeRight" delay={400}>
+                {/** <AnimatedSection animation="fadeRight" delay={400}>
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-slate-800">{t('psychologist.formations')}</h3>
                     <div className="space-y-3">
@@ -345,7 +343,7 @@ function WebsiteContent() {
                       ))}
                     </div>
                   </div>
-                </AnimatedSection>
+                </AnimatedSection> */}
 
                 <AnimatedSection animation="scaleIn" delay={600}>
                   <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100 transition-all duration-300 hover:shadow-lg hover:scale-105">
@@ -364,11 +362,11 @@ function WebsiteContent() {
 
                 <AnimatedSection animation="fadeRight" delay={800}>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1 transition-all duration-300 hover:scale-105 hover:shadow-lg" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}> 
                       {t('psychologist.appointment')}
                       <ChevronRight className="ml-2 w-4 h-4" />
                     </Button>
-                    <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 flex-1 transition-all duration-300 hover:scale-105">
+                    <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 flex-1 transition-all duration-300 hover:scale-105" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
                       {t('psychologist.availability')}
                     </Button>
                   </div>
@@ -412,6 +410,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/therapie-individuelle', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -438,6 +437,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/therapie-couple', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -464,6 +464,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/therapie-groupe', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -490,6 +491,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/therapie-individuelle', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -516,6 +518,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/therapie-individuelle', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -542,6 +545,7 @@ function WebsiteContent() {
                   <Button 
                     variant="ghost" 
                     className="w-full mt-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300 hover:scale-105"
+                    onClick={() => window.open('https://calendly.com/eliftugceyigit/ongorusme', '_blank')}
                   >
                     {t('services.learn_more')}
                     <ChevronRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -562,20 +566,18 @@ function WebsiteContent() {
                 <h2 className="text-3xl lg:text-4xl font-serif text-slate-800">
                   {t('about.title')}
                 </h2>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  {t('about.description')}
-                </p>
+                <p className="text-lg text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: t('about.description') }} />
                 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <AnimatedSection animation="scaleIn" delay={0}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
-                      <div className="text-3xl font-bold text-blue-600">150+</div>
+                      <div className="text-3xl font-bold text-blue-600">10+</div>
                       <div className="text-slate-600">{t('about.stats.therapists')}</div>
                     </div>
                   </AnimatedSection>
                   <AnimatedSection animation="scaleIn" delay={100}>
                     <div className="space-y-2 transition-transform duration-300 hover:scale-110">
-                      <div className="text-3xl font-bold text-indigo-600">2000+</div>
+                      <div className="text-3xl font-bold text-indigo-600">100+</div>
                       <div className="text-slate-600">{t('about.stats.patients')}</div>
                     </div>
                   </AnimatedSection>
@@ -603,9 +605,7 @@ function WebsiteContent() {
                     {[
                       t('about.approach.1'),
                       t('about.approach.2'),
-                      t('about.approach.3'),
-                      t('about.approach.4'),
-                      t('about.approach.5')
+                      t('about.approach.3')
                     ].map((item, index) => (
                       <AnimatedSection key={index} animation="fadeLeft" delay={index * 100}>
                         <div className="flex items-center space-x-3 transition-all duration-300 hover:translate-x-2">
@@ -636,8 +636,8 @@ function WebsiteContent() {
             </div>
           </AnimatedSection>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            <AnimatedSection animation="scaleIn" delay={0}>
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/** <AnimatedSection animation="scaleIn" delay={0}>
               <Card className="text-center p-8 border-0 shadow-lg transition-all duration-500 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
                 <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:scale-110">
                   <Phone className="w-8 h-8 text-blue-600" />
@@ -646,7 +646,7 @@ function WebsiteContent() {
                 <p className="text-slate-600 mb-4">{t('contact.phone.subtitle')}</p>
                 <p className="text-lg font-semibold text-blue-600">01 23 45 67 89</p>
               </Card>
-            </AnimatedSection>
+            </AnimatedSection> */}
 
             <AnimatedSection animation="scaleIn" delay={200}>
               <Card className="text-center p-8 border-0 shadow-lg transition-all duration-500 hover:shadow-xl hover:scale-105 hover:-translate-y-2">
@@ -655,7 +655,7 @@ function WebsiteContent() {
                 </div>
                 <h3 className="text-xl font-semibold text-slate-800 mb-2">{t('contact.email.title')}</h3>
                 <p className="text-slate-600 mb-4">{t('contact.email.subtitle')}</p>
-                <p className="text-lg font-semibold text-indigo-600">contact@espritserein.fr</p>
+                <p className="text-lg font-semibold text-indigo-600">info@gurbettepsikolog.com</p>
               </Card>
             </AnimatedSection>
 
@@ -673,7 +673,7 @@ function WebsiteContent() {
 
           <AnimatedSection animation="fadeUp" delay={600}>
             <div className="mt-16 text-center">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-12 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-12 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
                 {t('contact.cta')}
               </Button>
             </div>
@@ -690,7 +690,7 @@ function WebsiteContent() {
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
                   <Heart className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-serif">Esprit Serein</span>
+                <span className="text-xl font-serif">Gurbette Psikolog</span>
               </div>
               <p className="text-slate-300">
                 {t('footer.tagline')}
@@ -720,8 +720,7 @@ function WebsiteContent() {
             <div>
               <h4 className="font-semibold mb-4">{t('footer.contact')}</h4>
               <ul className="space-y-2 text-slate-300">
-                <li className="transition-colors duration-300 hover:text-white">01 23 45 67 89</li>
-                <li className="transition-colors duration-300 hover:text-white">contact@espritserein.fr</li>
+                <li className="transition-colors duration-300 hover:text-white">info@gurbettepsikolog.com</li>
                 <li className="transition-colors duration-300 hover:text-white">{t('contact.location.online')}</li>
                 <li className="transition-colors duration-300 hover:text-white">Support 24/7</li>
               </ul>
@@ -729,7 +728,7 @@ function WebsiteContent() {
           </div>
 
           <div className="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
-            <p>&copy; 2024 Esprit Serein. {t('footer.copyright')} | {t('footer.legal')} | {t('footer.privacy')}</p>
+            <p>&copy; 2025 Gurbette Psikolog. {t('footer.copyright')} | {t('footer.legal')} | {t('footer.privacy')}</p>
           </div>
         </div>
       </footer>
