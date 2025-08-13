@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useEffect, useRef, useState } from 'react'
 import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons"
 
 // Custom hook for intersection observer
 function useInView(options = {}) {
@@ -140,9 +141,14 @@ function WebsiteContent() {
               </button>
               <LanguageSwitcher />
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 hover:scale-105" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
-              {t('nav.appointment')}
-            </Button>
+            <div className='flex items-center space-x-4'>
+              <a className="text-blue-600 hover:text-blue-700 transition-all duration-300 hover:scale-120" href="https://www.instagram.com/gurbettepsikolog/" target='_blank'><InstagramLogoIcon /></a>
+              <a className="text-blue-600 hover:text-blue-700 transition-all duration-300 hover:scale-120" href="https://www.linkedin.com/in/eliftugceyigit/" target='_blank'><LinkedInLogoIcon /></a>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 hover:scale-105" onClick={() => window.open('https://calendly.com/eliftugceyigit/', '_blank')}>
+                {t('nav.appointment')}
+              </Button>
+            </div>
+            
           </div>
         </div>
       </nav>
